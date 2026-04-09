@@ -3,6 +3,8 @@ import HeroSection from '../components/HeroSection';
 import ProductSection from '../components/ProductSection';
 import ExploreTripsSection from '../components/ExploreTripsSection';
 import DeviceGridSection from '../components/DeviceGridSection';
+import PowerDashboardSection from '../components/PowerDashboardSection';
+import UserDeviceSection from '../components/UserDeviceSection';
 
 export default function Home() {
   return (
@@ -12,6 +14,8 @@ export default function Home() {
       <ProductSection />
       <ExploreTripsSection />
       <DeviceGridSection />
+      <PowerDashboardSection />
+      <UserDeviceSection />
     </div>
   );
 }
