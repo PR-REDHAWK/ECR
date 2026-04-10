@@ -1,10 +1,10 @@
-export function ColdSetupCard() {
+export function ColdSetupCard({ active }) {
   return (
-    <div className="bg-white/[0.03] backdrop-blur-xl border border-cyan-500/20 rounded-3xl p-6 shadow-2xl relative overflow-hidden group hover:border-cyan-400/50 transition duration-300 h-full flex flex-col">
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-80 group-hover:opacity-100 transition"></div>
+    <div className={`bg-white/[0.03] backdrop-blur-xl rounded-3xl p-6 shadow-2xl relative overflow-hidden group transition duration-300 h-full flex flex-col ${active ? 'border-cyan-400/80 border-2 shadow-[0_0_20px_rgba(34,211,238,0.25)]' : 'border border-cyan-500/20 hover:border-cyan-400/50'}`}>
+      <div className={`absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition ${active ? 'opacity-100' : 'opacity-80 group-hover:opacity-100'}`}></div>
       
       <div className="flex items-center justify-between mb-4 mt-2">
-        <div className="flex items-center gap-2 bg-cyan-900/30 px-3 py-1.5 rounded-full border border-cyan-500/30 shadow-inner">
+        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border shadow-inner transition ${active ? 'bg-cyan-900/50 border-cyan-400/50' : 'bg-cyan-900/30 border-cyan-500/30'}`}>
           <span className="text-cyan-300 text-sm">❄️</span>
           <span className="text-cyan-100 text-xs font-semibold tracking-wide">Cold Region Setup Card</span>
         </div>
@@ -43,13 +43,13 @@ export function ColdSetupCard() {
   );
 }
 
-export function HotSetupCard() {
+export function HotSetupCard({ active }) {
   return (
-    <div className="bg-white/[0.03] backdrop-blur-xl border border-orange-500/20 rounded-3xl p-6 shadow-2xl relative overflow-hidden group hover:border-orange-400/50 transition duration-300 h-full flex flex-col">
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-400 to-red-500 opacity-80 group-hover:opacity-100 transition"></div>
+    <div className={`bg-white/[0.03] backdrop-blur-xl rounded-3xl p-6 shadow-2xl relative overflow-hidden group transition duration-300 h-full flex flex-col ${active ? 'border-orange-400/80 border-2 shadow-[0_0_20px_rgba(251,146,60,0.25)]' : 'border border-orange-500/20 hover:border-orange-400/50'}`}>
+      <div className={`absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-400 to-red-500 transition ${active ? 'opacity-100' : 'opacity-80 group-hover:opacity-100'}`}></div>
       
       <div className="flex items-center justify-between mb-4 mt-2">
-        <div className="flex items-center gap-2 bg-orange-900/30 px-3 py-1.5 rounded-full border border-orange-500/30 shadow-inner">
+        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border shadow-inner transition ${active ? 'bg-orange-900/50 border-orange-400/50' : 'bg-orange-900/30 border-orange-500/30'}`}>
           <span className="text-orange-400 text-sm">🔥</span>
           <span className="text-orange-100 text-xs font-semibold tracking-wide">Hot Region Setup Card</span>
         </div>

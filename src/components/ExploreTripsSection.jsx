@@ -14,7 +14,7 @@ export default function ExploreTripsSection() {
   ];
 
   return (
-    <section 
+    <section id="trips"
       className="relative w-full min-h-screen bg-cover bg-center bg-no-repeat flex flex-col py-6 px-4 sm:px-8 md:px-12"
       style={{ backgroundImage: `url("${bgImage}")` }}
     >
@@ -45,9 +45,9 @@ export default function ExploreTripsSection() {
         {/* 3. IMAGE GRID Container */}
         <div className="w-full bg-white/20 backdrop-blur-md border-[2px] border-white/30 rounded-[2rem] p-6 md:p-10 shadow-[0_8px_32px_rgba(0,0,0,0.15)] mb-8">
           <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-14">
-            <img src={img1} alt="Trip 1" className="w-full aspect-square object-cover rounded-sm shadow-[0_25px_25px_-10px_rgba(0,0,0,0.8)]" />
-            <img src={img2} alt="Trip 2" className="w-full aspect-[1/1] object-cover rounded-sm shadow-[0_25px_25px_-10px_rgba(0,0,0,0.8)]" />
-            <img src={img3} alt="Trip 3" className="w-full aspect-[1.1] object-cover rounded-sm shadow-[0_25px_25px_-10px_rgba(0,0,0,0.8)]" />
+            <img src={img1} alt="Trip 1" className="w-full aspect-square object-cover rounded-sm shadow-[0_25px_25px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.9)] cursor-pointer" />
+            <img src={img2} alt="Trip 2" className="w-full aspect-[1/1] object-cover rounded-sm shadow-[0_25px_25px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.9)] cursor-pointer" />
+            <img src={img3} alt="Trip 3" className="w-full aspect-[1.1] object-cover rounded-sm shadow-[0_25px_25px_-10px_rgba(0,0,0,0.8)] transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.9)] cursor-pointer" />
           </div>
         </div>
 
@@ -56,7 +56,7 @@ export default function ExploreTripsSection() {
           <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-y-6 md:gap-y-8 gap-x-4">
             {tags.map((tag, i) => (
               <div key={i} className="flex justify-center md:justify-start items-center">
-                <button className="text-black font-extrabold text-[15px] md:text-lg tracking-wide hover:text-blue-900 transition-colors uppercase pl-4">
+                <button className="text-black font-extrabold text-[15px] md:text-lg tracking-wide hover:text-blue-900 uppercase pl-4 transition-all duration-300 ease-in-out hover:-translate-y-0.5 active:scale-95">
                   {tag}
                 </button>
               </div>

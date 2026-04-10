@@ -3,7 +3,7 @@ import TopPill from './TopPill';
 
 export default function UserDeviceSection() {
   return (
-    <section className="min-h-[80vh] py-12 px-4 md:px-12 lg:px-16 w-full relative">
+    <section id="user-device" className="min-h-[80vh] py-12 px-4 md:px-12 lg:px-16 w-full relative">
       {/* Top right pill */}
       <div className="absolute top-8 right-8 z-10 hidden md:block">
         <TopPill />

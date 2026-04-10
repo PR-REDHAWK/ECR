@@ -3,7 +3,7 @@ import productImage from '../assets/images/WhatsApp Image 2026-04-08 at 10.55.28
 
 export default function ProductSection() {
   return (
-    <section className="w-full px-8 md:px-12 py-16 text-black">
+    <section id="product" className="w-full px-8 md:px-12 py-16 text-black">
       {/* Section Title */}
       <h2 className="text-5xl md:text-7xl font-black mb-12 lg:mb-16 tracking-tight">
         EcoCharge roommate
@@ -24,7 +24,7 @@ export default function ProductSection() {
           <img 
             src={productImage} 
             alt="EcoCharge Roommate Device" 
-            className="w-full h-auto max-w-[600px] object-contain drop-shadow-2xl"
+            className="w-full h-auto max-w-[600px] object-contain drop-shadow-2xl transition-all duration-300 ease-in-out hover:scale-105 hover:drop-shadow-[0_35px_35px_rgba(0,0,0,0.4)]"
           />
         </div>
         

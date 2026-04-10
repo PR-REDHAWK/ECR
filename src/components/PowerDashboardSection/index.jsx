@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { DashboardHeader } from './DashboardHeader';
 import { ControlPanel } from './ControlPanel';
 import { ColdSetupCard, HotSetupCard } from './SetupCards';
@@ -5,33 +6,59 @@ import { OutputSummary } from './OutputSummary';
 import { ServiceOptions } from './ServiceOptions';
 
 export default function PowerDashboardSection() {
+  const [location, setLocation] = useState('cold');
+  const [people, setPeople] = useState(3);
+  const [days, setDays] = useState(3);
+  const [powerCapacity, setPowerCapacity] = useState(1.5);
+  const [backupDuration, setBackupDuration] = useState(2);
+  const [serviceType, setServiceType] = useState('rent');
+
+  const totalPower = (powerCapacity * days).toFixed(1);
+  const usageScore = Math.min(100, powerCapacity * 20);
+
   return (
-    <section className="bg-gradient-to-br from-[#120B2E] via-[#1A1245] to-[#110A24] min-h-screen py-20 px-4 md:px-8 lg:px-16 overflow-hidden relative font-sans">
+    <section id="dashboard" className="bg-gradient-to-br from-[#120B2E] via-[#1A1245] to-[#110A24] min-h-screen py-20 px-4 md:px-8 lg:px-16 overflow-hidden relative font-sans">
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Header Area */}
         <DashboardHeader />
 
         {/* Top Controls Row */}
-        <ControlPanel />
+        <ControlPanel 
+          location={location} setLocation={setLocation}
+          people={people} setPeople={setPeople}
+          days={days} setDays={setDays}
+          powerCapacity={powerCapacity} setPowerCapacity={setPowerCapacity}
+          backupDuration={backupDuration} setBackupDuration={setBackupDuration}
+          totalPower={totalPower}
+        />
 
         {/* Middle and Bottom Row Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 relative">
           
           {/* Left Column - Cold Card */}
           <div className="lg:col-span-3">
-             <ColdSetupCard />
+             <ColdSetupCard active={location === 'cold'} />
           </div>
 
           {/* Center Column - Output & Services */}
           <div className="lg:col-span-6 flex flex-col gap-6">
-             <OutputSummary />
-             <ServiceOptions />
+             <OutputSummary 
+               totalPower={totalPower}
+               days={days}
+               serviceType={serviceType}
+               usageScore={usageScore}
+               location={location}
+             />
+             <ServiceOptions 
+               serviceType={serviceType} 
+               setServiceType={setServiceType}
+             />
           </div>
 
           {/* Right Column - Hot Card & AI */}
           <div className="lg:col-span-3 flex flex-col gap-4">
-             <HotSetupCard />
+             <HotSetupCard active={location === 'hot'} />
              
              {/* Bottom Right AI Bubble */}
              <div className="bg-gradient-to-r from-teal-500/20 to-blue-500/10 backdrop-blur-xl border border-teal-400/30 rounded-2xl p-4 shadow-[0_0_20px_rgba(45,212,191,0.1)] relative w-full lg:mt-2 transition-transform hover:-translate-y-1">

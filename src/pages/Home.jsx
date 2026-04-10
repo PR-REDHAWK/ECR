@@ -8,7 +8,7 @@ import UserDeviceSection from '../components/UserDeviceSection';
 
 export default function Home() {
   return (
-    <div className="min-h-screen w-full flex flex-col pt-2 bg-gradient-to-br from-[#689ef0] via-[#c6e1ff] to-[#f4f7f9] overflow-hidden selection:bg-blue-300 selection:text-white">
+    <div className="min-h-screen w-full flex flex-col pt-24 bg-gradient-to-br from-[#689ef0] via-[#c6e1ff] to-[#f4f7f9] overflow-hidden selection:bg-blue-300 selection:text-white">
       <Navbar />
       <HeroSection />
       <ProductSection />
