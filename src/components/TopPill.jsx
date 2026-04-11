@@ -1,13 +1,21 @@
 export default function TopPill() {
+  const user = JSON.parse(localStorage.getItem('user'));
+
   return (
-    <div className="flex items-center gap-2 bg-[#eaeff6] bg-opacity-80 rounded-full px-2 py-1 shadow-sm border border-white/40 backdrop-blur-md">
-      <span className="text-sm pl-1 pr-0.5">🇮🇳</span>
-      <img 
-        src="https://api.dicebear.com/7.x/notionists/svg?seed=Pritam&backgroundColor=c0aede,d1d4f9,ffd5dc,ffdfbf" 
-        alt="User Avatar" 
-        className="w-8 h-8 rounded-full object-cover border-2 border-[#b5c7ef]"
+    <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2 shadow-md">
+      <span>🇮🇳</span>
+
+      <img
+        src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${
+          user?.name || 'Guest'
+        }`}
+        alt="profile"
+        className="w-10 h-10 rounded-full border-2 border-blue-200 bg-blue-50"
       />
-      <span className="text-[#05103a] font-bold italic pr-2 text-sm">Hello Pritam !</span>
+
+      <span className="font-semibold text-lg italic text-[#0c1a2c]">
+        Hello {user?.name || 'Guest'} !
+      </span>
     </div>
   );
 }

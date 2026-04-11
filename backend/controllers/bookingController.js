@@ -1,56 +1,49 @@
-// controllers/bookingController.js
-import pool from '../config/db.js';
+import db from '../config/db.js';
 
-export const getBookings = async (req, res) => {
+export const createBooking = async (req, res) => {
   try {
-    const result = await pool.query(`
-      SELECT 
-        bookings.*,
-        products.name AS product_name
-      FROM bookings
-      LEFT JOIN products
-      ON bookings.product_id = products.id
-      ORDER BY bookings.created_at DESC
-    `);
+    const { productId, serviceType, days } = req.body;
 
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err);
+    const [result] = await db.query(
+      `INSERT INTO bookings
+      (user_id, product_id, service_type, days)
+      VALUES (?, ?, ?, ?)`,
+      [req.user.id, productId, serviceType, days]
+    );
+
+    res.status(201).json({
+      id: result.insertId,
+      user_id: req.user.id,
+      product_id: productId,
+      service_type: serviceType,
+      days,
+    });
+  } catch (error) {
+    console.error(error);
+
     res.status(500).json({
-      message: 'Failed to fetch bookings',
+      message: 'Failed to create booking',
     });
   }
 };
 
-export const createBooking = async (req, res) => {
+export const getMyBookings = async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      phone,
-      productId,
-      serviceType,
-      days,
-    } = req.body;
-
-    const result = await pool.query(
-      `
-      INSERT INTO bookings
-      (name, email, phone, product_id, service_type, days)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING *
-      `,
-      [name, email, phone, productId, serviceType, days]
+    const [bookings] = await db.query(
+      `SELECT b.*, p.name AS product_name, p.image
+       FROM bookings b
+       JOIN products p ON b.product_id = p.id
+       WHERE b.user_id = ?
+       ORDER BY b.id DESC`,
+      [req.user.id]
     );
 
-    res.status(201).json({
-      message: 'Booking created successfully',
-      booking: result.rows[0],
-    });
-  } catch (err) {
-    console.error(err);
+    res.json(bookings);
+  } catch (error) {
+    console.error(error);
+
     res.status(500).json({
-      message: 'Failed to create booking',
+      message: 'Failed to fetch bookings',
     });
   }
 };
