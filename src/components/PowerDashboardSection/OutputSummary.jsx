@@ -3,52 +3,72 @@ export function OutputSummary({
   days,
   serviceType,
   usageScore,
-  location
+  location,
+  recommendation,
+  loading,
 }) {
-  const getVariant = () => {
-    if (location === 'cold') return 'ECR Arctic';
-    if (location === 'hot') return 'ECR Oasis';
-    return 'ECR Standard';
-  };
-
-  const rentCost = days * 25;
-  const buyCost = 799;
-
-  let scoreLabel = "Low";
-  if (usageScore >= 70) scoreLabel = "High";
-  else if (usageScore >= 40) scoreLabel = "Optimal";
-
   return (
-    <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative flex flex-col justify-center transition-transform hover:-translate-y-1 h-full">
-      <h3 className="text-gray-200 font-semibold mb-8 text-lg tracking-wide">Output Summary</h3>
-      
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 w-full">
+    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-[0_0_25px_rgba(168,85,247,0.08)]">
+      <div className="flex items-center justify-between mb-6">
         <div>
-           <p className="text-gray-400 text-sm mb-2 font-medium">Recommended ECR Variant</p>
-           <p className="text-white text-2xl font-bold tracking-tight">{getVariant()}</p>
+          <p className="text-sm uppercase tracking-[0.25em] text-violet-300/70">
+            Power Summary
+          </p>
+          <h3 className="text-2xl md:text-3xl font-bold text-white mt-1">
+            {loading
+              ? 'Analyzing...'
+              : recommendation?.recommendedPlan || 'ECR Basic'}
+          </h3>
         </div>
-        <div className="sm:text-right">
-           <p className="text-gray-400 text-sm mb-2 font-medium">Cost Estimation ({serviceType})</p>
-           <p className="text-white text-lg font-semibold">
-              {serviceType === 'rent' ? (
-                <><span className="text-white font-bold">${rentCost}</span> <span className="text-gray-400 text-sm">(${25}/day)</span></>
-              ) : serviceType === 'buy' ? (
-                <><span className="text-white font-bold">${buyCost}</span></>
-              ) : (
-                <><span className="text-white font-bold">$49/mo</span> <span className="text-gray-400 text-sm">(Service Plan)</span></>
-              )}
-           </p>
+
+        <div className="text-right">
+          <p className="text-xs text-zinc-400">Usage Score</p>
+          <p className="text-3xl font-bold text-cyan-300">{usageScore}%</p>
         </div>
       </div>
-      
-      <div className="mt-auto pt-2">
-        <div className="flex justify-between items-end mb-3">
-          <span className="text-gray-400 text-sm font-medium">Usage Optimization Score:</span>
-          <span className="text-cyan-400 font-bold tracking-wider">{scoreLabel} {Math.round(usageScore)}%</span>
+
+      <div className="grid grid-cols-2 gap-4 md:gap-6">
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
+          <p className="text-xs uppercase text-zinc-400 mb-1">Total Power</p>
+          <p className="text-xl font-semibold text-white">{totalPower} kWh</p>
         </div>
-        <div className="w-full bg-gray-800/80 rounded-full h-2.5 shadow-inner overflow-hidden relative">
-          <div className="absolute top-0 left-0 bg-gradient-to-r from-cyan-400 via-teal-400 to-green-400 h-full rounded-full shadow-[0_0_12px_rgba(45,212,191,0.6)] transition-all duration-500 ease-out" style={{width: `${usageScore}%`}}></div>
+
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
+          <p className="text-xs uppercase text-zinc-400 mb-1">Duration</p>
+          <p className="text-xl font-semibold text-white">{days} Days</p>
         </div>
+
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
+          <p className="text-xs uppercase text-zinc-400 mb-1">Service</p>
+          <p className="text-xl font-semibold text-white capitalize">
+            {serviceType}
+          </p>
+        </div>
+
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-4">
+          <p className="text-xs uppercase text-zinc-400 mb-1">Location</p>
+          <p className="text-xl font-semibold text-white capitalize">
+            {location}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-6 rounded-2xl border border-cyan-400/20 bg-cyan-500/10 p-5">
+        <p className="text-xs uppercase tracking-[0.2em] text-cyan-300 mb-2">
+          Estimated Cost
+        </p>
+
+        <p className="text-3xl font-bold text-white">
+          {loading
+            ? '...'
+            : `₹${recommendation?.estimatedCost?.toLocaleString() || 0}`}
+        </p>
+
+        <p className="mt-2 text-sm text-cyan-100/80">
+          {loading
+            ? 'Calculating best setup for you...'
+            : recommendation?.message}
+        </p>
       </div>
     </div>
   );
