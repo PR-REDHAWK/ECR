@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 export default function Auth() {
   const navigate = useNavigate();
 
@@ -29,8 +31,8 @@ export default function Auth() {
 
     try {
       const endpoint = isLogin
-        ? 'http://localhost:5000/api/auth/login'
-        : 'http://localhost:5000/api/auth/register';
+        ? `${API_BASE}/api/auth/login`
+        : `${API_BASE}/api/auth/register`;
 
       const bodyData = isLogin
         ? {
@@ -62,7 +64,7 @@ export default function Auth() {
 
       navigate('/');
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Unable to connect to server');
     } finally {
       setLoading(false);
     }
