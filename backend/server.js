@@ -20,6 +20,12 @@ app.use('/api/products', productRoutes);
 app.use('/api/recommendation', recommendationRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/auth', authRoutes);
+app.get("/health", (req, res) => {
+  res.json({
+    status: "ok",
+    message: "Backend is running"
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 
