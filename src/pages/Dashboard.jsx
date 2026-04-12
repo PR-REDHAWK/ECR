@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  // logged in user from localStorage
   const user = JSON.parse(localStorage.getItem('user'));
 
-  // later this will store bookings from backend
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -22,8 +23,13 @@ export default function Dashboard() {
       try {
         const token = localStorage.getItem('token');
 
+        if (!token) {
+          navigate('/login');
+          return;
+        }
+
         const response = await fetch(
-          'http://localhost:5000/api/bookings/my-bookings',
+          `${API_BASE}/api/bookings/my-bookings`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -31,31 +37,37 @@ export default function Dashboard() {
           }
         );
 
-        if (!response.ok) return;
+        if (response.status === 401) {
+          handleLogout();
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch bookings');
+        }
 
         const data = await response.json();
         setBookings(data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchBookings();
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-        {/* Top section */}
         <div className="flex justify-between items-center mb-10">
           <div>
             <h1 className="text-3xl font-bold">
               Welcome, {user?.name}
             </h1>
 
-            <p className="text-gray-500 mt-1">
-              {user?.email}
-            </p>
+            <p className="text-gray-500 mt-1">{user?.email}</p>
           </div>
 
           <button
@@ -66,13 +78,14 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Dashboard body */}
         <div>
-          <h2 className="text-2xl font-semibold mb-4">
-            My Bookings
-          </h2>
+          <h2 className="text-2xl font-semibold mb-4">My Bookings</h2>
 
-          {bookings.length === 0 ? (
+          {loading ? (
+            <div className="bg-gray-50 border rounded-xl p-6 text-gray-500">
+              Loading bookings...
+            </div>
+          ) : bookings.length === 0 ? (
             <div className="bg-gray-50 border rounded-xl p-6 text-gray-500">
               No bookings yet.
             </div>
