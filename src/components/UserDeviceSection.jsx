@@ -1,7 +1,32 @@
 import React from 'react';
 import TopPill from './TopPill';
 
-export default function UserDeviceSection() {
+export default function UserDeviceSection({
+  serviceType = 'rent',
+  startDate = new Date().toISOString().split('T')[0],
+  days = 14,
+  location = 'normal',
+  recommendation = null,
+}) {
+  const formattedDate = new Date(startDate).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+
+  const usedComponents =
+    location === 'cold'
+      ? 'Heater, Insulation, Solar'
+      : location === 'hot'
+      ? 'AC, Cooling Fans, Solar'
+      : 'Standard AC, Standard Battery';
+
+  const totalBill = recommendation?.estimatedCost
+    ? `₹${recommendation.estimatedCost.toLocaleString()}`
+    : 'Calculating...';
+
+  const batteryPercentage = Math.max(10, 100 - (days % 20) * 2);
+
   return (
     <section id="user-device" className="min-h-[80vh] py-12 px-4 md:px-12 lg:px-16 w-full relative">
       {/* Top right pill */}
@@ -21,33 +46,35 @@ export default function UserDeviceSection() {
             
             <div className="flex flex-col gap-8 w-full mt-4">
               <div className="flex flex-col sm:flex-row sm:items-center text-lg md:text-xl">
-                <span className="w-72 font-extrabold text-black tracking-tight">RENTED ON :</span>
-                <span className="font-semibold text-gray-800">12th Oct 2023</span>
+                <span className="w-72 font-extrabold text-black tracking-tight">
+                  {serviceType === 'buy' ? 'PURCHASED ON :' : 'RENTED ON :'}
+                </span>
+                <span className="font-semibold text-gray-800">{formattedDate}</span>
               </div>
               
               <div className="flex flex-col sm:flex-row sm:items-center text-lg md:text-xl">
                 <span className="w-72 font-extrabold text-black tracking-tight">BATTERY PERCENTAGE :</span>
-                <span className="font-semibold text-gray-800">84%</span>
+                <span className="font-semibold text-gray-800">{batteryPercentage}%</span>
               </div>
               
               <div className="flex flex-col sm:flex-row sm:items-center text-lg md:text-xl">
                 <span className="w-72 font-extrabold text-black tracking-tight">DAYS LEFT :</span>
-                <span className="font-semibold text-gray-800">14 Days</span>
+                <span className="font-semibold text-gray-800">{days} Days</span>
               </div>
               
               <div className="flex flex-col sm:flex-row sm:items-center text-lg md:text-xl">
                 <span className="w-72 font-extrabold text-black tracking-tight">USED COMPONENTS :</span>
-                <span className="font-semibold text-gray-800">AC, Heater, Lights</span>
+                <span className="font-semibold text-gray-800">{usedComponents}</span>
               </div>
               
               <div className="flex flex-col sm:flex-row sm:items-center text-lg md:text-xl">
                 <span className="w-72 font-extrabold text-black tracking-tight">PLACE VISITED :</span>
-                <span className="font-semibold text-gray-800">Manali, Himachal Pradesh</span>
+                <span className="font-semibold text-gray-800 capitalize">{location} Environment</span>
               </div>
               
               <div className="flex flex-col sm:flex-row sm:items-center text-lg md:text-xl">
                 <span className="w-72 font-extrabold text-black tracking-tight">TOTAL BILL :</span>
-                <span className="font-semibold text-gray-800">$150.00</span>
+                <span className="font-semibold text-gray-800">{totalBill}</span>
               </div>
             </div>
           </div>

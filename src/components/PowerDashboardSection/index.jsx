@@ -5,54 +5,26 @@ import { ColdSetupCard, HotSetupCard } from './SetupCards';
 import { OutputSummary } from './OutputSummary';
 import { ServiceOptions } from './ServiceOptions';
 
-export default function PowerDashboardSection() {
-  const [location, setLocation] = useState('cold');
-  const [people, setPeople] = useState(3);
-  const [days, setDays] = useState(3);
-  const [powerCapacity, setPowerCapacity] = useState(1.5);
-  const [backupDuration, setBackupDuration] = useState(2);
-  const [serviceType, setServiceType] = useState('rent');
-
-  const [recommendation, setRecommendation] = useState(null);
-  const [loading, setLoading] = useState(false);
-
+export default function PowerDashboardSection({
+  location,
+  setLocation,
+  people,
+  setPeople,
+  days,
+  setDays,
+  powerCapacity,
+  setPowerCapacity,
+  backupDuration,
+  setBackupDuration,
+  serviceType,
+  setServiceType,
+  startDate,
+  setStartDate,
+  recommendation,
+  loading,
+}) {
   const totalPower = (powerCapacity * days).toFixed(1);
   const usageScore = Math.min(100, powerCapacity * 20);
-
-  const fetchRecommendation = async () => {
-    try {
-      setLoading(true);
-
-      const response = await fetch(
-        'http://localhost:5000/api/recommendation',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            location,
-            people,
-            days,
-            powerCapacity,
-            backupDuration,
-            serviceType,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      setRecommendation(data);
-    } catch (error) {
-      console.error('Recommendation fetch failed:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchRecommendation();
-  }, [location, people, days, powerCapacity, backupDuration, serviceType]);
 
   return (
     <section
@@ -60,7 +32,7 @@ export default function PowerDashboardSection() {
       className="bg-gradient-to-br from-[#120B2E] via-[#1A1245] to-[#110A24] min-h-screen py-20 px-4 md:px-8 lg:px-16 overflow-hidden relative font-sans"
     >
       <div className="max-w-7xl mx-auto relative z-10">
-        <DashboardHeader />
+        <DashboardHeader serviceType={serviceType} setServiceType={setServiceType} />
 
         <ControlPanel
           location={location}
@@ -74,6 +46,8 @@ export default function PowerDashboardSection() {
           backupDuration={backupDuration}
           setBackupDuration={setBackupDuration}
           totalPower={totalPower}
+          startDate={startDate}
+          setStartDate={setStartDate}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 relative">

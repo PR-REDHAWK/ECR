@@ -1,4 +1,4 @@
-export function DashboardHeader() {
+export function DashboardHeader({ serviceType, setServiceType }) {
   return (
     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center w-full mb-12 relative z-20">
       <div className="max-w-2xl">
@@ -10,10 +10,24 @@ export function DashboardHeader() {
           for AC, Heat, Power, Sound & Light.
         </p>
         <div className="flex flex-wrap gap-4 items-center">
-          <button className="bg-white text-black px-8 py-3.5 rounded-full font-semibold hover:bg-gray-100 transition shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+          <button
+            onClick={() => setServiceType('rent')}
+            className={`px-8 py-3.5 rounded-full font-semibold transition ${
+              serviceType === 'rent'
+                ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:bg-gray-100'
+                : 'bg-transparent border border-white/40 text-white hover:bg-white/10'
+            }`}
+          >
             Rent Now
           </button>
-          <button className="bg-transparent border border-white/40 text-white px-8 py-3.5 rounded-full font-semibold hover:bg-white/10 transition">
+          <button
+            onClick={() => setServiceType('buy')}
+            className={`px-8 py-3.5 rounded-full font-semibold transition ${
+              serviceType === 'buy'
+                ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:bg-gray-100'
+                : 'bg-transparent border border-white/40 text-white hover:bg-white/10'
+            }`}
+          >
             Buy Now
           </button>
           <button className="text-white hover:text-gray-300 font-semibold px-4 py-3.5 transition">

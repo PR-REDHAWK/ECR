@@ -61,7 +61,9 @@ export function OutputSummary({
         <p className="text-3xl font-bold text-white">
           {loading
             ? '...'
-            : `₹${recommendation?.estimatedCost?.toLocaleString() || 0}`}
+            : serviceType === 'rent'
+            ? `Rent: ₹${recommendation?.estimatedCost?.toLocaleString() || 0}/day`
+            : `Buy: ₹${recommendation?.estimatedCost?.toLocaleString() || 0} one-time`}
         </p>
 
         <p className="mt-2 text-sm text-cyan-100/80">

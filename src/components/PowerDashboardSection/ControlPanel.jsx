@@ -10,9 +10,11 @@ export function ControlPanel({
   backupDuration,
   setBackupDuration,
   totalPower,
+  startDate,
+  setStartDate,
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 mb-6">
       <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-xl">
         <label className="block text-sm text-zinc-300 mb-2">Location</label>
 
@@ -81,6 +83,20 @@ export function ControlPanel({
           value={backupDuration}
           onChange={(e) => setBackupDuration(Number(e.target.value))}
           className="w-full bg-black/20 border border-white/10 rounded-xl px-3 py-2 text-white outline-none"
+        />
+      </div>
+
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-xl">
+        <label className="block text-sm text-zinc-300 mb-2">
+          Start Date
+        </label>
+
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          className="w-full bg-black/20 border border-white/10 rounded-xl px-3 py-2 text-white outline-none appearance-none"
+          style={{ colorScheme: 'dark' }}
         />
       </div>
     </div>
